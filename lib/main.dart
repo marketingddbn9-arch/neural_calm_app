@@ -1,30 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'screens/auth/login_screen.dart';
-import 'screens/home/home_screen.dart';
-import 'screens/checkin/checkin_screen.dart';
-import 'screens/analytics/analytics_screen.dart';
-import 'config/app_theme.dart';
 
 void main() {
   runApp(const NeuralCalmApp());
 }
 
-class NeuralCalmApp extends StatefulWidget {
+class NeuralCalmApp extends StatelessWidget {
   const NeuralCalmApp({Key? key}) : super(key: key);
-
-  @override
-  State<NeuralCalmApp> createState() => _NeuralCalmAppState();
-}
-
-class _NeuralCalmAppState extends State<NeuralCalmApp> {
-  bool isLoggedIn = false;
-
-  void _handleLogin() {
-    setState(() {
-      isLoggedIn = true;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +16,7 @@ class _NeuralCalmAppState extends State<NeuralCalmApp> {
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.light,
-        primaryColor: AppTheme.primaryPurple,
+        primaryColor: const Color(0xFF7C5CFA),
         scaffoldBackgroundColor: Colors.white,
         textTheme: GoogleFonts.interTightTextTheme(
           Theme.of(context).textTheme,
@@ -47,7 +29,7 @@ class _NeuralCalmAppState extends State<NeuralCalmApp> {
       darkTheme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
-        primaryColor: AppTheme.primaryPurple,
+        primaryColor: const Color(0xFF7C5CFA),
         scaffoldBackgroundColor: const Color(0xFF1A1A1A),
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF7C5CFA),
@@ -55,105 +37,69 @@ class _NeuralCalmAppState extends State<NeuralCalmApp> {
         ),
       ),
       themeMode: ThemeMode.system,
-      home: isLoggedIn
-          ? const MainApp()
-          : LoginScreen(onLoginSuccess: _handleLogin),
+      home: const HomeScreen(),
     );
   }
 }
 
-class MainApp extends StatefulWidget {
-  const MainApp({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<MainApp> createState() => _MainAppState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MainAppState extends State<MainApp> {
+class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    const HomeScreen(),      // Home
-    const CheckInScreen(),   // Check-in
-    const AnalyticsScreen(), // Analytics
-  ];
-
-  final List<String> _tabLabels = ['Home', 'Check-in', 'Analytics'];
-  final List<IconData> _tabIcons = [
-    Icons.home_outlined,
-    Icons.edit_outlined,
-    Icons.bar_chart_outlined,
+    const Center(
+      child: Text(
+        'Home Tab',
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+    ),
+    const Center(
+      child: Text(
+        'Check-in Tab',
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+    ),
+    const Center(
+      child: Text(
+        'Analytics Tab',
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex],
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(
-            top: BorderSide(
-              color: Colors.grey.shade200,
-              width: 1,
-            ),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 16,
-              offset: const Offset(0, -4),
-            ),
-          ],
-        ),
-        child: SafeArea(
-          top: false,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: List.generate(
-                _screens.length,
-                (index) => _buildNavItem(index),
-              ),
-            ),
-          ),
-        ),
+      appBar: AppBar(
+        title: const Text('Neural Calm'),
+        centerTitle: true,
+        backgroundColor: const Color(0xFF7C5CFA),
+        foregroundColor: Colors.white,
       ),
-    );
-  }
-
-  Widget _buildNavItem(int index) {
-    final isActive = _currentIndex == index;
-    return GestureDetector(
-      onTap: () => setState(() => _currentIndex = index),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isActive
-              ? AppTheme.primaryPurple.withOpacity(0.1)
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              _tabIcons[index],
-              color: isActive ? AppTheme.primaryPurple : Colors.grey,
-              size: 24,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              _tabLabels[index],
-              style: AppTheme.caption.copyWith(
-                color: isActive ? AppTheme.primaryPurple : Colors.grey,
-                fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
-              ),
-            ),
-          ],
-        ),
+      body: _screens[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) => setState(() => _currentIndex = index),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.edit),
+            label: 'Check-in',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bar_chart),
+            label: 'Analytics',
+          ),
+        ],
       ),
     );
   }
