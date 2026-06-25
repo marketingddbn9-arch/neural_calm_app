@@ -9,27 +9,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # State Management
   flutter_riverpod: ^2.4.0
   riverpod_annotation: ^2.3.3
-  # Firebase
   firebase_core: ^2.24.0
   firebase_auth: ^4.15.0
   cloud_firestore: ^4.14.0
   firebase_storage: ^11.6.0
   firebase_messaging: ^14.7.0
-  # HTTP & Networking
   dio: ^5.3.1
-  # Local Storage
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   shared_preferences: ^2.2.2
-  # UI & Animations
   flutter_svg: ^2.0.9
   lottie: ^2.6.0
   fl_chart: ^0.63.0
   google_fonts: ^6.1.0
-  # Utilities
   intl: ^0.19.0
   uuid: ^4.0.0
   collection: ^1.17.2
@@ -44,20 +38,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  
   assets:
-    # Icons
-    - assets/icons/home.svg
-    - assets/icons/checkin.svg
-    - assets/icons/trends.svg
-    - assets/icons/coach.svg
-    - assets/icons/profile.svg
-    # Images
     - assets/images/logo.png
     - assets/images/splash.png
-    - assets/images/app_icon.png
-    - assets/images/app_icon_foreground.png
-    - assets/images/onboarding/
-    # Animations
-    - assets/animations/loading.json
-    - assets/animations/success.json
